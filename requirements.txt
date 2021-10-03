@@ -1,0 +1,5 @@
+pymongo
+pydantic
+nltk
+fastapi[all]
+
