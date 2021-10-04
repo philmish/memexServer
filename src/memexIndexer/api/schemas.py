@@ -1,16 +1,28 @@
 from abc import abstractmethod
-from typing import Any, Dict, List, Union, Optional
 from pydantic import BaseModel, validator
 from datetime import datetime
 from pydantic.fields import Field
-from memexIndexer.utils.errors import PydanticValidatorError
+from memexIndexer.utils.errors import (
+    PydanticValidatorError
+    )
+from typing import (
+    Any,
+    Dict,
+    List,
+    Union,
+    Optional
+    )
 
 
 class ItemBase(BaseModel):
     item_type: str
-    created_At: datetime = Field(default_factory=lambda: datetime.now())
+    created_At: datetime = Field(
+        default_factory=lambda: datetime.now()
+        )
     edited_At: Union[datetime, int] = 0
-    tags: Union[List[str], List] = Field(default_factory=lambda: [])
+    tags: Union[List[str], List] = Field(
+        default_factory=lambda: []
+        )
 
     @validator("item_type")
     def valid_item_type_check(cls, v):
@@ -23,10 +35,13 @@ class ItemBase(BaseModel):
             "movie",
             "note",
             "time_capsule",
-            "scraped_data"
+            "scraped_data",
+            "todo"
             ]
         if v not in valid:
-            raise PydanticValidatorError(f"{v} is an invalid item_type")
+            raise PydanticValidatorError(
+                f"{v} is an invalid item_type"
+                )
         return v
 
     @abstractmethod
@@ -62,7 +77,8 @@ class ItemQuery(BaseModel):
             "movie",
             "note",
             "time_capsule",
-            "scraped_data"
+            "scraped_data",
+            "todo"
             ]
         if v not in valid:
             raise PydanticValidatorError(f"{v} is an invalid item_type")

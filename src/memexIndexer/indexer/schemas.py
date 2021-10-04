@@ -19,7 +19,8 @@ class Request(BaseModel):
             "note",
             "time_capsule",
             "scraped_data"
-            "tag"
+            "tag",
+            "todo"
             ]
         if v not in valid:
             raise PydanticValidatorError(f"{v} is an invalid item_type")

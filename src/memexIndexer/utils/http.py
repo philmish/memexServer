@@ -44,8 +44,10 @@ def parse_client_response(response: ClientResponse, data: Any = None, error: Uni
 def parse_HTTPResponse(response: HTTPResponse):
     if response.status == 200:
         return response.data
+
     elif response.status == 201:
         return response.data
+        
     elif response.status == 409:
         raise HTTPException(
             status_code=409,

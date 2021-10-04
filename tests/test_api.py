@@ -5,6 +5,7 @@ from memexIndexer.api.routers.books.schemas import BookBase
 from memexIndexer.api.routers.emails.schemas import Email
 from memexIndexer.api.routers.movies.schemas import MovieBase
 from memexIndexer.api.routers.notes.schemas import NoteBase
+from memexIndexer.api.routers.todo.schemas import ToDoBase
 from memexIndexer.api.schemas import ItemQuery
 from memexIndexer.api.server import app
 
@@ -87,6 +88,15 @@ def test_get_all(endpoint):
         },
         NoteBase,
         {"text": "Updated by pytest"}
+    ),
+    (
+        "/todo/",
+        {
+            "description": "Made by pytest",
+            "importance":  5,
+        },
+        ToDoBase,
+        {"importance": 7}
     )
 ])
 def test_crud(endpoint, data, item, update):

@@ -1,146 +1,145 @@
 from typing import List, Dict
 from fastapi import APIRouter
-from fastapi.exceptions import HTTPException
+from fastapi import HTTPException
 from memexIndexer.api.client import Client
 from memexIndexer.indexer.schemas import Query
 from memexIndexer.utils.http import parse_HTTPResponse
-from memexIndexer.api.routers.bookmarks.schemas import (
-    BookmarkBase,
-    BookmarkFromDB,
-    BookmarkFulltextQuery,
-    BookmarkQuery
+from memexIndexer.api.routers.todo.schemas import (
+    ToDoBase,
+    TodoDB,
+    TodoFulltextQuery,
+    TodoQuery
 )
 
 
 router = APIRouter(
-    prefix="/bookmarks",
-    tags=["bookmarks"]
+    prefix="/todo",
+    tags=["todo"]
 )
 
 
 @router.get("/ping")
 def ping():
-    return "Hello World, this is the bookmarks endpoint."
+    return "Hello World, this is the todos endpoint."
 
 
 @router.get(
     "/all",
-    response_model=List[BookmarkFromDB]
-    )
-def all_bookmarks():
+    response_model=List[TodoDB])
+def all_todos():
     client = Client()
     resp = parse_HTTPResponse(
         client.get_all(
-            item_type="bookmark"
-            )
+            item_type="todo"
         )
-    return [BookmarkFromDB(**data) for data in resp]
+    )
+    return [TodoDB(**data) for data in resp]
 
 
 @router.post(
     "/get/id",
     response_model=Dict[str, str]
-    )
-def get_id(query: BookmarkQuery):
+)
+def get_id(query: TodoQuery):
     client = Client()
     resp = parse_HTTPResponse(
         client.get_id(
             query=query
-            )
         )
+    )
     return resp
 
 
 @router.get(
     "/{item_id}",
-    response_model=BookmarkFromDB
+    response_model=TodoDB
     )
-def get_by_id(item_id: str):
+def get_by_id(item_id: int):
     client = Client()
     resp = parse_HTTPResponse(
         client.get_by_id(
             query=Query(
-                item_type="bookmark",
+                item_type="todo",
                 data=item_id
             )
         )
     )
-    return BookmarkFromDB(**resp)
+    return TodoDB(**resp)
 
 
 @router.post(
     "/create",
-    response_model=BookmarkFromDB
+    response_model=TodoDB
     )
-def create_bookmark(item: BookmarkBase):
+def create_todo(item: ToDoBase):
     client = Client()
     resp = parse_HTTPResponse(
         client.create(
             data=item
-            )
         )
-    return BookmarkFromDB(**resp)
+    )
+    return TodoDB(**resp)
 
 
 @router.post(
     "/query",
-    response_model=List[BookmarkFromDB]
+    response_model=List[TodoDB]
     )
-def query(query: BookmarkQuery):
+def query(query: TodoQuery):
     client = Client()
     resp = parse_HTTPResponse(
         client.read(
             query=query
-            )
         )
-    res = [BookmarkFromDB(**data) for data in resp]
+    )
+    res = [TodoDB(**data) for data in resp]
     if len(res) == 0:
         raise HTTPException(
             status_code=404,
             detail="Item not found"
-            )
+        )
     return res
 
 
 @router.post(
     "/update/{item_id}",
-    response_model=BookmarkFromDB
+    response_model=TodoDB
     )
-def update(query: BookmarkQuery, item_id: str):
+def update(query: TodoQuery, item_id: str):
     client = Client()
     resp = parse_HTTPResponse(
         client.update(
             item_id=item_id,
             query=query
-            )
         )
-    return BookmarkFromDB(**resp)
+    )
+    return TodoDB(**resp)
 
 
 @router.post(
     "/delete/{item_id}",
-    response_model=BookmarkFromDB
+    response_model=TodoDB
     )
 def delete_item(item_id: str):
     client = Client()
     resp = parse_HTTPResponse(
         client.delete(
             item_id=item_id,
-            item_type="bookmark"
+            item_type="todo"
             )
         )
-    return BookmarkFromDB(**resp)
+    return TodoDB(**resp)
 
 
 @router.post(
     "/fulltext",
-    response_model=List[BookmarkFromDB]
+    response_model=List[TodoDB]
     )
-def fulltext_search(query: BookmarkFulltextQuery):
+def fulltext_search(query: TodoFulltextQuery):
     client = Client()
     resp = parse_HTTPResponse(
         client.fulltext_search(
             query=query
             )
         )
-    return [BookmarkFromDB(**data) for data in resp]
+    return [TodoDB(**data) for data in resp]
