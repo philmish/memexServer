@@ -94,12 +94,7 @@ def query(query: BookmarkQuery):
             )
         )
     res = [BookmarkFromDB(**data) for data in resp]
-    if len(res) == 0:
-        raise HTTPException(
-            status_code=404,
-            detail="Item not found"
-            )
-    return res
+    
 
 
 @router.post(

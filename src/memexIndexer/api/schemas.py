@@ -36,7 +36,11 @@ class ItemBase(BaseModel):
             "note",
             "time_capsule",
             "scraped_data",
-            "todo"
+            "todo",
+            "contact",
+            "debt",
+            "loan_item",
+            "scraped_data"
             ]
         if v not in valid:
             raise PydanticValidatorError(
@@ -78,7 +82,11 @@ class ItemQuery(BaseModel):
             "note",
             "time_capsule",
             "scraped_data",
-            "todo"
+            "todo",
+            "contact",
+            "debt",
+            "loan_item",
+            "scraped_data"
             ]
         if v not in valid:
             raise PydanticValidatorError(f"{v} is an invalid item_type")
