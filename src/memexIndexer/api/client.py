@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from bson.objectid import ObjectId
 from pymongo import MongoClient
@@ -11,16 +12,29 @@ from memexIndexer.api.schemas import (
     ItemBase,
     ItemQuery
 )
+try:
+    mode = os.getenv("SERVER_MODE")
+    if mode == "DEBUG":
+        from memexIndexer.config.api_env import default_settings as settings
+    # TODO Implement configs for hosting an env from files
+    else:
+        from memexIndexer.config.api_env import default_settings as settings
+except Exception as e:
+    # TODO Implement Exception for this case
+    raise Exception(f"{e}\nCould not load environment.")
+
 
 class Client:
     """Database client implementing basic CRUD functionality"""
     def __init__(
         self,
-        host: str = "localhost",
-        port: int = 27017
+        settings = settings
     ) -> None:
-       
-        self.client = MongoClient(host, port)
+        self.settings = settings
+        self.client = MongoClient(
+            self.settings.db_host,
+            self.settings.db_port
+            )
         self.db = self.client.memex_data
         self.indexer_db = self.client.memex_indexes
 

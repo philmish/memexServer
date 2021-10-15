@@ -1,0 +1,7 @@
+from pydantic import BaseSettings
+
+class SettingsBase(BaseSettings):
+    db_host: str = "localhost"
+    db_port: int = 27017
+
+default_settings = SettingsBase()
