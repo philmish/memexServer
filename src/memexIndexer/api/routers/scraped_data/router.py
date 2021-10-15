@@ -23,3 +23,4 @@ def get_all():
             item_type="scraped_data"
         )
     )
+    return [ScrapedDataDB(**data) for data in resp]
