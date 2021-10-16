@@ -2,4 +2,6 @@ pymongo
 pydantic
 nltk
 fastapi[all]
+click
+
 
