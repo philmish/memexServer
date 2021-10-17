@@ -21,7 +21,7 @@ try:
         from memexIndexer.config.api_env import default_settings as settings
 except Exception as e:
     # TODO Implement Exception for this case
-    raise Exception(f"{e}\nCould not load environment.")
+    raise Exception(f"{e}\nDB client could not load environment.")
 
 
 class Client:

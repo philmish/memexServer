@@ -3,5 +3,6 @@ pydantic
 nltk
 fastapi[all]
 click
+requests
 
 
