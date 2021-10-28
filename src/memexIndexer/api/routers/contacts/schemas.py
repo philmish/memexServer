@@ -1,5 +1,5 @@
 from pydantic import Field
-from typing import Optional, List
+from typing import Any, Dict, Optional, List
 from memexIndexer.api.schemas import ItemBase, ItemQuery
 from memexIndexer.indexer.schemas import BlobToIndex, Query
 
@@ -30,7 +30,7 @@ class DebtDB(DebtBase):
 
 class DebtQuery(ItemQuery):
     item_type: str = "debt"
-
+    query: Dict[str, Any] = {"person": "", "owed_to_me": True}
 
 class LoanItemBase(ItemBase):
     """Represents the data for a entry in the loan items database collection."""
@@ -58,6 +58,7 @@ class LoanItemDB(LoanItemBase):
 
 class LoanItemQuery(ItemQuery):
     item_type: str = "loan_item"
+    query: Dict[str, Any] = {"person": "", "item": "", "loan_from_me": True}
 
 
 class ContactBase(ItemBase):
@@ -68,8 +69,6 @@ class ContactBase(ItemBase):
     e_mail: Optional[str] = ""
     telephone: Optional[str] = ""
     notes: Optional[str] = ""
-    loan_items: List[str] = Field(default_factory=lambda: [])
-    debts: List[str] = Field(default_factory=lambda: [])
     item_type: str = "contact"
 
     def blob(self) -> BlobToIndex:

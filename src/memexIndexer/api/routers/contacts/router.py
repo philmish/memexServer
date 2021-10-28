@@ -183,7 +183,6 @@ def create_contact(item: ContactBase):
     response_model=DebtDB
     )
 def create_debt(item: DebtBase):
-    #TODO Implement automatic appending of created debt to the corresponding persons entry in db
     client = Client()
     existing_contact = parse_HTTPResponse(
         client.read(
@@ -219,7 +218,6 @@ def create_debt(item: DebtBase):
     response_model=LoanItemDB
     )
 def create_debt(item: LoanItemBase):
-    #TODO Implement automatic appending of created loan_item id to corresponding person
     client = Client()
     existing_contact = parse_HTTPResponse(
         client.read(
