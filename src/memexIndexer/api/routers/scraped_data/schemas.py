@@ -24,6 +24,7 @@ class ScrapeRequest(BaseModel):
 class ScrapedDataBase(ItemBase):
     """Represents the base for all schemas for data scraped from the web."""
     link: str
+    plugin: str
     status_code: int
     response_header: Dict[str,Any]
     timestamp: Optional[datetime] = Field(
