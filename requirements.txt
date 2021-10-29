@@ -4,5 +4,6 @@ nltk
 fastapi[all]
 click
 requests
+uvicorn
 
 
