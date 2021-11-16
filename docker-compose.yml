@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  db:
+    image: "mongo:latest"
+    container_name: "db"
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+  rake:
+    depends_on:
+      - db
+    environment:
+      - RAKE_HOST=0.0.0.0
+      - RAKE_PORT=${RAKE_PORT}
+    container_name: "rake"
+    ports:
+      - ${RAKE_PORT}:${RAKE_PORT}
+    build:
+      context: .
+      dockerfile: rake_dockerfile.yml
+  memex:
+    depends_on:
+      - db
+      - rake
+    environment:
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - RAKE_HOST=rake
+      - RAKE_PORT=${RAKE_PORT}
+    build:
+      context: .
+      dockerfile: dockerfile.yml
+    

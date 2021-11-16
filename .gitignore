@@ -50,3 +50,6 @@ venv.bak/
 dmypy.json
 .pyre/
 *.db
+database/
+.gem_aliases
+gem_config.json

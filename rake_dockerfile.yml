@@ -1,0 +1,10 @@
+FROM python:3.8
+
+RUN apt-get -y update
+RUN apt-get -y install git
+RUN git clone https://github.com/philmish/rake
+
+WORKDIR /rake
+RUN pip install -e .
+
+CMD python3 src/rake/main.py up
