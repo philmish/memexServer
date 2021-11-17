@@ -35,7 +35,13 @@ def rake(req: ScrapeRequest):
             status_code=response_data["status_code"],
             detail=response_data["data"]
         )
-        
+
+@router.get("/plugins", response_model=List[str])
+def plugins():
+    """Returns all available plugins from the rake server."""
+    rake_cli = RakeClient()
+    results = rake_cli.all_plugins()
+    return results
 
 @router.get("/all", response_model=List[ScrapedDataDB])
 def get_all():

@@ -30,11 +30,17 @@ class RakeClient:
         self.host = settings.rake_host
         self.port = settings.rake_port
 
+    def all_plugins(self):
+        data = requests.get(f"http://{self.host}:{self.port}/plugins")
+        data = data.json()
+        return data["plugins"]
+
     def make_request(self, req: ScrapeRequest):
         data = {
             "plugin": req.plugin,
             "slug": req.slug,
-            "method": req.method
+            "method": req.method,
+            "header": req.header
             }
         resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data)
         if resp.status_code == 200:
