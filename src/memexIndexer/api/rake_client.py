@@ -33,7 +33,7 @@ class RakeClient:
     def all_plugins(self):
         data = requests.get(f"http://{self.host}:{self.port}/plugins")
         data = data.json()
-        return data["plugins"]
+        return data
 
     def make_request(self, req: ScrapeRequest):
         data = {

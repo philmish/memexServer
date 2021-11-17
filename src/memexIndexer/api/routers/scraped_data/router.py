@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Any
 from fastapi import APIRouter, HTTPException
 from pymongo import response
 from memexIndexer.api.client import Client
@@ -36,7 +36,7 @@ def rake(req: ScrapeRequest):
             detail=response_data["data"]
         )
 
-@router.get("/plugins", response_model=List[str])
+@router.get("/plugins", response_model=Dict[str, Any])
 def plugins():
     """Returns all available plugins from the rake server."""
     rake_cli = RakeClient()
