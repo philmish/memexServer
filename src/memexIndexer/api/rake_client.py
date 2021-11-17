@@ -32,11 +32,11 @@ class RakeClient:
 
     def make_request(self, req: ScrapeRequest):
         data = {
-            "plugin": ScrapeRequest.plugin,
-            "slug": ScrapeRequest.slug,
-            "method": ScrapeRequest.method
+            "plugin": req.plugin,
+            "slug": req.slug,
+            "method": req.method
             }
-        resp = requests.post(f"{self.host}:{self.port}/scrape", json=data)
+        resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data)
         if resp.status_code == 200:
             resp_data = resp.json()
             return ScrapedDataBase(**resp_data)
