@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . /app
 RUN pip install -e .
 
-CMD ["python3 src/memexIndexer/api/docker_entrypoint.py"]
+CMD ["python3", "src/memexIndexer/api/docker_entrypoint.py"]

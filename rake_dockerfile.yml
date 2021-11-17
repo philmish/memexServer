@@ -6,5 +6,6 @@ RUN git clone https://github.com/philmish/rake
 
 WORKDIR /rake
 RUN pip install -e .
+RUN pwd
 
-CMD python3 src/rake/main.py up
+CMD ["python3", "src/rake/docker_entrypoint.py"]

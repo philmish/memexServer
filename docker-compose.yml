@@ -31,8 +31,12 @@ services:
     environment:
       - HOST=${HOST}
       - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
       - RAKE_HOST=rake
       - RAKE_PORT=${RAKE_PORT}
+    ports:
+      - ${PORT}:9999
     build:
       context: .
       dockerfile: dockerfile.yml

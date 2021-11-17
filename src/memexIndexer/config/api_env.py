@@ -30,7 +30,7 @@ class SettingsBase(BaseSettings):
             rake_port = int(rake_port)
 
         return SettingsBase(
-                dbhost=db_host,
+                db_host=db_host,
                 db_port=db_port,
                 rake_host=rake_host,
                 rake_port=rake_port

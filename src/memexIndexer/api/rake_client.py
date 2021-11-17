@@ -8,7 +8,7 @@ try:
     mode = os.getenv("SERVER_MODE")
     if mode == "DEBUG":
         from memexIndexer.config.api_env import default_settings as settings
-    elif mode == "ENVVAR":
+    elif mode == "ENVVARS":
         from memexIndexer.config.api_env import SettingsBase
         settings = SettingsBase.from_env_vars()
     # TODO Implement configs for hosting an env from files

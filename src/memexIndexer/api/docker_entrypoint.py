@@ -9,5 +9,4 @@ if host is None or port is None:
     raise Exception("Failed to load host and port from env vars.")
 else:
     port = int(port)
-
-uvicorn.run(app, host, port)
+    uvicorn.run(app, host=host, port=port)
