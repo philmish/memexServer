@@ -11,7 +11,7 @@ from memexIndexer.indexer.utils import get_tokens
         "really"
         ]),
     ("THE WORLD IS BURNING", ["world", "burning"])
-] )
+])
 def test_get_tokens_basic(inp, comp_vals):
     data = get_tokens(inp)
     for val in comp_vals:

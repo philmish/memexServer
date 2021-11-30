@@ -1,4 +1,3 @@
-from typing import Literal
 import uvicorn
 import click
 import os
@@ -20,7 +19,7 @@ def up(mode, file) -> None:
     if mode == "debug" and file == "":
         os.environ["SERVER_MODE"] = "DEBUG"
         from memexIndexer.api.server import app
-        uvicorn.run(app, host="127.0.0.1", port=9999)
+        uvicorn.run(app, host="127.0.0.1", port=9999) #type:ignore
     elif mode == "vars" and file == "":
         os.environ["SERVER_MODE"] = "ENVVARS"
         from memexIndexer.api.server import app
@@ -31,7 +30,7 @@ def up(mode, file) -> None:
         else:
             port = int(port)
 
-        uvicorn.run(app, host, port)
+        uvicorn.run(app, host=host, port=port) #type:ignore
 
 
 if __name__ == "__main__":

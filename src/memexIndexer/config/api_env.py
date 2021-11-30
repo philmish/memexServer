@@ -1,6 +1,7 @@
 import os
 from pydantic import BaseSettings
 
+
 class SettingsBase(BaseSettings):
     """
     Represents a Base for API Settings.
@@ -35,5 +36,6 @@ class SettingsBase(BaseSettings):
                 rake_host=rake_host,
                 rake_port=rake_port
                 )
+
 
 default_settings = SettingsBase()

@@ -41,7 +41,7 @@ def test_get_all(endpoint):
         {
             "link": "https://testing.test",
             "topic": "testing",
-            "notes":"This is an entry written by pytest",
+            "notes": "This is an entry written by pytest",
         },
         BookmarkBase,
         {"notes": "Updated by pytest"}
@@ -107,7 +107,7 @@ def test_crud(endpoint, data, item, update):
         )
     resp_data = response.json()
     assert response.status_code == 200
-    
+
     for key, val in data.items():
         assert resp_data[key] == val
 
@@ -126,7 +126,7 @@ def test_crud(endpoint, data, item, update):
         data=query.json()
         )
     assert id_req.status_code == 200
-    
+
     _id = id_req.json()["id"]
     update_query = ItemQuery(
         item_type=item_data.item_type,
@@ -141,7 +141,7 @@ def test_crud(endpoint, data, item, update):
     updated_data = updated.json()
     for key, val in update.items():
         assert updated_data[key] == val
-    
+
     deleted = client.post(f"{endpoint}delete/{_id}")
     assert deleted.status_code == 200
 
@@ -150,12 +150,3 @@ def test_crud(endpoint, data, item, update):
         data=query.json()
         )
     assert not_found.status_code == 404
-
-
-
-
-
-
-
-
-

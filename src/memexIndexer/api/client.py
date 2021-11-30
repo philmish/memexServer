@@ -19,7 +19,6 @@ try:
     elif mode == "ENVVARS":
         from memexIndexer.config.api_env import SettingsBase
         settings = SettingsBase.from_env_vars()
-    # TODO Implement configs for hosting an env from files
     else:
         from memexIndexer.config.api_env import default_settings as settings
 except Exception as e:
@@ -28,11 +27,10 @@ except Exception as e:
 
 
 class Client:
-    """Database client implementing basic CRUD functionality"""
-    def __init__(
-        self,
-        settings = settings
-    ) -> None:
+    """
+    MongoDB client implementing basic CRUD functionality as a wrapper around pymongo.
+    """
+    def __init__(self, settings=settings) -> None:
         self.settings = settings
         self.client = MongoClient(
             self.settings.db_host,
@@ -91,11 +89,7 @@ class Client:
                 data=[]
             )
 
-    def update(
-        self,
-        item_id: str,
-        query: ItemQuery
-        ) -> HTTPResponse:
+    def update(self, item_id: str, query: ItemQuery) -> HTTPResponse:
         index = self._get_index(query.item_type)
         parsed_item_id = ObjectId(item_id)
         data = query.query
@@ -129,24 +123,15 @@ class Client:
                 error=f"Id {item_id} could not be found."
             )
 
-    def delete(
-        self,
-        item_id: str,
-        item_type: str
-        ) -> HTTPResponse:
+    def delete(self, item_id: str, item_type: str) -> HTTPResponse:
         index = self._get_index(item_type)
         parsed_item_id = ObjectId(item_id)
-        item = index.find_one_and_delete(
-            {"_id": parsed_item_id}
-            )
+        item = index.find_one_and_delete({"_id": parsed_item_id})
         if item:
             indexer = self._get_indexer(item_type)
             indexer.update_many(
                 {"items": item_id},
-                {"$pull": {
-                    "items": item_id
-                    }
-                }
+                {"$pull": {"items": item_id}}
             )
             return parse_client_response(
                 response=ClientResponse.SUCCESS,
@@ -173,7 +158,6 @@ class Client:
                 data=[],
                 error=f"Could load data for {item_type}\n{e}"
             )
-
 
     def get_id(self, query: ItemQuery) -> HTTPResponse:
         index = self._get_index(query.item_type)
@@ -211,10 +195,7 @@ class Client:
                 data=e
             )
 
-    def fulltext_search(
-        self,
-        query: Query
-        ) -> HTTPResponse:
+    def fulltext_search(self, query: Query) -> HTTPResponse:
         try:
             indexer = self._get_indexer(query.item_type)
             words = get_tokens(query.data)
@@ -238,16 +219,12 @@ class Client:
                 data=e
             )
 
-    def index_blob(
-        self,
-        blob: BlobToIndex,
-        item_id: str
-        ) -> None:
+    def index_blob(self, blob: BlobToIndex, item_id: str) -> None:
         index = self._get_indexer(blob.item_type)
         tokens = get_tokens(blob.data)
         for word in tokens:
             exists = index.find_one({"word": word})
-            
+
             if exists and item_id in exists["items"]:
                 continue
             elif exists:
@@ -256,6 +233,4 @@ class Client:
                     {"$addToSet": {"items": item_id}}
                     )
             else:
-                index.insert_one(
-                    {"word": word, "items": [item_id]}
-                    )
+                index.insert_one({"word": word, "items": [item_id]})

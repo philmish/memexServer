@@ -1,7 +1,6 @@
 from typing import Dict, List
 from fastapi import APIRouter, HTTPException
 from memexIndexer.api.client import Client
-from memexIndexer.api.routers.bookmarks.router import query
 from memexIndexer.indexer.schemas import Query
 from memexIndexer.utils.http import parse_HTTPResponse
 from memexIndexer.api.routers.contacts.schemas import (
@@ -70,6 +69,7 @@ def all_loan_items():
     )
     return [LoanItemDB(**data) for data in resp]
 
+
 @router.post(
     "/get/id",
     response_model=Dict[str, str]
@@ -110,7 +110,6 @@ def get_loan_item_id(query: LoanItemQuery):
         )
     )
     return resp
-
 
 
 @router.get(
@@ -200,7 +199,7 @@ def create_debt(item: DebtBase):
             )
     else:
         new_contact = ContactBase(name=item.person)
-        created_contact = parse_HTTPResponse(
+        _ = parse_HTTPResponse(
             client.create(
                 data=new_contact
             )
@@ -217,7 +216,7 @@ def create_debt(item: DebtBase):
     "/loan_items/create",
     response_model=LoanItemDB
     )
-def create_debt(item: LoanItemBase):
+def create_loan_item(item: LoanItemBase):
     client = Client()
     existing_contact = parse_HTTPResponse(
         client.read(
@@ -235,7 +234,7 @@ def create_debt(item: LoanItemBase):
             )
     else:
         new_contact = ContactBase(name=item.person)
-        created_contact = parse_HTTPResponse(
+        _ = parse_HTTPResponse(
             client.create(
                 data=new_contact
             )
@@ -353,7 +352,6 @@ def update_loan_item(query: LoanItemQuery, item_id: str):
     return LoanItemDB(**resp)
 
 
-
 @router.post(
     "/delete/{item_id}",
     response_model=ContactDB
@@ -411,4 +409,3 @@ def fulltext_search(query: ContactFulltextQuery):
         )
     )
     return [ContactDB(**data) for data in resp]
-
