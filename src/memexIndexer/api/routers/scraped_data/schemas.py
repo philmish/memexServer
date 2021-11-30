@@ -11,7 +11,7 @@ class ScrapeRequest(BaseModel):
     plugin: str
     slug: str
     method: str = "GET"
-    header: Optional[Dict[str,Any]]
+    header: Dict[str,Any] = Field(default=dict())
 
     @validator("method")
     def validate_method(cls, v):

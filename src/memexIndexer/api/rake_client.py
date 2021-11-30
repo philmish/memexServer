@@ -31,7 +31,7 @@ class RakeClient:
         self.port = settings.rake_port
 
     def all_plugins(self):
-        data = requests.get(f"http://{self.host}:{self.port}/plugins")
+        data = requests.get(f"http://{self.host}:{self.port}/rake/plugins")
         data = data.json()
         return data
 
@@ -42,7 +42,7 @@ class RakeClient:
             "method": req.method,
             "header": req.header
             }
-        resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data)
+        resp = requests.post(f"http://{self.host}:{self.port}/scrape", data=data)
         if resp.status_code == 200:
             resp_data = resp.json()
             return ScrapedDataBase(**resp_data)
