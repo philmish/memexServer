@@ -42,7 +42,7 @@ class RakeClient:
             "method": req.method,
             "header": req.header
             }
-        resp = requests.post(f"http://{self.host}:{self.port}/scrape", data=data)
+        resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data)
         if resp.status_code == 200:
             resp_data = resp.json()
             return ScrapedDataBase(**resp_data)
