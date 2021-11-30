@@ -26,15 +26,18 @@ class ScrapedDataBase(ItemBase):
     link: str
     plugin: str
     status_code: int
+    data: Any
     response_header: Dict[str,Any]
     timestamp: Optional[datetime] = Field(
         default_factory=lambda: datetime.now()
         )
-    data: Any
     item_type: str = "scraped_data"
 
     def blob(self):
-        return str(self.data)
+        return BlobToIndex(
+                item_type=self.item_type,
+                data = str(self.data)
+                )
 
     @property
     def uid(self):

@@ -1,4 +1,5 @@
 import os
+import json
 from fastapi.exceptions import HTTPException
 import requests
 from requests.sessions import session
@@ -43,13 +44,13 @@ class RakeClient:
             "method": req.method,
             "header": req.header
             }
-        resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data, headers=self.header)
+        resp = requests.post(f"http://{self.host}:{self.port}/scrape", json=data)
         if resp.status_code == 200:
             resp_data = resp.json()
             return ScrapedDataBase(**resp_data)
         else:
             raise HTTPException(
                 status_code=resp.status_code,
-                detail="rake server connection failed"
+                detail=f"rake server connection failed"
                 )
 

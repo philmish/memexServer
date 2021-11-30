@@ -23,7 +23,7 @@ def rake(req: ScrapeRequest):
     rake_cli = RakeClient()
     db_cli = Client()
     response_data = rake_cli.make_request(req)
-    if response_data["status_code"] == 200:
+    if response_data.status_code == 200:
         resp = parse_HTTPResponse(
             db_cli.create(
                 data=response_data
@@ -32,8 +32,8 @@ def rake(req: ScrapeRequest):
         return ScrapedDataDB(**resp)
     else:
         raise HTTPException(
-            status_code=response_data["status_code"],
-            detail=response_data["data"]
+            status_code=response_data.status_code,
+            detail=response_data.data
         )
 
 @router.get("/plugins", response_model=Dict[str, Any])

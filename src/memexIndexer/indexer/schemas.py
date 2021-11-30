@@ -18,7 +18,7 @@ class Request(BaseModel):
             "movie",
             "note",
             "time_capsule",
-            "scraped_data"
+            "scraped_data",
             "tag",
             "todo"
             ]
