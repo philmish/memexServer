@@ -22,4 +22,3 @@ app.include_router(notes)
 app.include_router(time_capsule)
 app.include_router(todo)
 app.include_router(scraped_data)
-

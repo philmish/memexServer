@@ -11,8 +11,8 @@ class Email(ItemBase):
     sender: str
     subject: str
     content: str
-    cc: Optional[Union[List[str],List]] = Field(default_factory=lambda: [])
-    bcc: Optional[Union[List[str],List]] = Field(default_factory=lambda: [])
+    cc: Optional[Union[List[str], List]] = Field(default_factory=lambda: [])
+    bcc: Optional[Union[List[str], List]] = Field(default_factory=lambda: [])
     item_type: str = "email"
 
     def blob(self) -> BlobToIndex:

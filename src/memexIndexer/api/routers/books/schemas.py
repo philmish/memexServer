@@ -10,7 +10,7 @@ class BookBase(ItemBase):
     isbn: str
     pages: Optional[int] = 0
     item_type: str = "book"
-    
+
     def blob(self):
         return BlobToIndex(
             item_type="book",

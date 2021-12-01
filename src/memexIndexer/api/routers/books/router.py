@@ -24,7 +24,7 @@ def ping():
     )
 def all_notes():
     client = Client()
-    resp =  parse_HTTPResponse(
+    resp = parse_HTTPResponse(
         client.get_all(
             item_type="books"
             )
@@ -78,7 +78,7 @@ def query(query: BookQuery):
             detail="Item not found"
             )
     return res
- 
+
 
 @router.post(
     "/update/{item_id}",
@@ -122,4 +122,3 @@ def fulltext_search(query: Query):
             )
         )
     return [BookDB(**data) for data in resp]
-

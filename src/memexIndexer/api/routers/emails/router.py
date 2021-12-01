@@ -11,7 +11,6 @@ from memexIndexer.api.routers.emails.schemas import (
 )
 
 
-
 router = APIRouter(
     prefix="/email",
     tags=["email"]
@@ -83,7 +82,7 @@ def query(query: EmailQuery):
             detail="Item not found"
             )
     return res
-    
+
 
 @router.post(
     "/update/{item_id}",
